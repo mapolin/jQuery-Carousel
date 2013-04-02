@@ -77,3 +77,6 @@ Callback function to be executed before the page is changed
 
 `onPageChangeEnd`
 Callback function to be executed after the page is changed
+
+`disabledClass`
+Adds this class to the left/right arrows if first/last page is reached
