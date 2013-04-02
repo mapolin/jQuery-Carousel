@@ -15,6 +15,7 @@
 				,'startPage': 1
 				,'onPageChangeStart': null
 				,'onPageChangeEnd': null
+                ,'disabledClass': 'disabled'
             }, options);
 
             var self = this;
@@ -97,8 +98,26 @@
 				if(settings.startPage > 1 && settings.startPage <= totalPages) {
 					$this.carousel("changePage", settings.startPage, false);
 				}
-
+                $this.carousel('endReached', settings.startPage, $this);
             });
+        },
+        endReached: function(page, self) {
+            if(self.find('.carousel-holder').length > 0) {
+                self = self.find('.carousel-holder');
+            }
+            else {
+                self = self.parents('.carousel-holder');
+            }
+
+            if(page == 1) {
+                self.find(".arrowl").addClass(settings.disabledClass);
+            }
+            else if(page == totalPages) {
+                self.find(".arrowr").addClass(settings.disabledClass);
+            }
+            else {
+                self.find(".arrowl, .arrowr").removeClass(settings.disabledClass);
+            }
         },
         changePage: function (page, animate) {
             this.each(function () {
@@ -114,6 +133,7 @@
 						if(jQuery.isFunction(settings.onPageChangeEnd)) {
 							settings.onPageChangeEnd.call(this, page);
 						}
+                        $(this).carousel('endReached', page, $(this));
 					});
 				} else {
 					$(".carousel-holder ul").css({'margin-left': ml});
